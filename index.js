@@ -1,9 +1,22 @@
 'use strict';
 
 const debug = require('debug')('zenweb:view');
+const fs = require('fs');
 const path = require('path');
 const nunjucks = require('nunjucks');
 const merge = require('lodash.merge');
+
+function loadItems(p, filename) {
+  const fullpath = path.resolve(p, `${filename}.js`);
+  if (fs.existsSync(fullpath)) {
+    debug('load %s: %s', filename, fullpath);
+    const mod = require(fullpath);
+    const keys = Object.keys(mod);
+    debug('add %s: %s', filename, keys.join(', '));
+    return keys.map(name => [name, mod[name]]);
+  }
+  return [];
+}
 
 /**
  * @param {import('zenweb').Core} core 
@@ -19,6 +32,13 @@ function setup(core, options) {
   debug('options: %o', globalOptions);
 
   const env = nunjucks.configure(globalOptions.path, globalOptions.nunjucksConfig);
+
+  // load filter, tag, global
+  for (const p of Array.isArray(globalOptions.path) ? globalOptions.path : [globalOptions.path]) {
+    loadItems(p, 'filter').forEach(([name, func]) => env.addFilter(name, func));
+    loadItems(p, 'tag').forEach(([name, func]) => env.addExtension(name, func));
+    loadItems(p, 'global').forEach(([name, func]) => env.addGlobal(name, func));
+  }
 
   if (typeof globalOptions.configureEnvironment === 'function') {
     globalOptions.configureEnvironment(env);
