@@ -1,0 +1,26 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 9
+  },
+  "rules": {
+    "indent": ["warn", 2],
+    "no-tabs": "warn",
+    "keyword-spacing": "warn",
+    "block-spacing": "warn",
+    "comma-spacing": "warn",
+    "comma-style": "warn",
+    "func-call-spacing":"warn",
+    "no-mixed-operators": "error",
+    "no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
+    "object-curly-spacing": ["warn", "always"],
+    "space-before-blocks": "warn",
+    "semi": "warn",
+    "semi-spacing": "warn",
+    "key-spacing": "warn"
+  }
+}
