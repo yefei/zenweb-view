@@ -46,7 +46,7 @@ function setup(core, options) {
 
   core.koa.context.render = function render(name, context, options) {
     options = Object.assign({}, globalOptions, options);
-    const mergedContext = merge({}, this.state, context);
+    const mergedContext = merge({ ctx: this }, this.state, context);
     return new Promise((resolve, reject) => {
       env.render(`${name}.${options.ext}`, mergedContext, (err, res) => {
         if (err) return reject(err);
