@@ -1,4 +1,5 @@
 import { Environment, ConfigureOptions } from 'nunjucks';
+import { Context } from 'koa';
 
 export interface ViewOptions {
   path?: string | string[];
@@ -7,6 +8,7 @@ export interface ViewOptions {
   responseType?: string;
   nunjucksConfig?: ConfigureOptions;
   configureEnvironment?: (env: Environment) => any;
+  beforeRender?: (ctx: Context, name: string, context: object, options: ViewOptions) => Promise<string>;
 }
 
 declare module 'koa' {
