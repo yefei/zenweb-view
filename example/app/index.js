@@ -2,7 +2,12 @@
 
 process.env.DEBUG = '*';
 
-const app = module.exports = require('zenweb').create();
+const { default: view } = require('../../dist');
+const { Core } = require('@zenweb/core');
+const { default: router } = require('@zenweb/router');
 
-app.setup(require('../..').setup);
+const app = module.exports = new Core();
+
+app.setup(router());
+app.setup(view());
 app.start();

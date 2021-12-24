@@ -11,9 +11,10 @@ app/index.js
 ```js
 'use strict';
 
+const { default: view } = require('@zenweb/view');
 const app = module.exports = require('zenweb').create();
 
-app.setup('@zenweb/view');
+app.setup(view());
 
 app.boot().then(() => {
   app.router.get('/', ctx => {
